@@ -39,7 +39,9 @@ const Product = () => {
   );
 
   useEffect(() => {
-    document.title = `${product?.name} - NextShop`;
+    if(product){
+      document.title = `${product?.name} - NextShop`;
+    }
   }, [product]);
 
   if (isLoading) return <div>Loading...</div>;
