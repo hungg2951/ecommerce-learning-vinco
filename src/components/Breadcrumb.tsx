@@ -10,12 +10,12 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export default function Breadcrumb() {
   const pathname = usePathname();
 
-  if (pathname === "/") return null;
+  if (pathname === "/" || pathname === "/404") return null;
 
   const segments = pathname.split("/").filter(Boolean);
 
   // Lấy danh sách productId từ URL (các segment là số)
-  const productIdSegment = segments.find((s) => /^\d+$/.test(s)) || null
+  const productIdSegment = segments.find((s) => /^\d+$/.test(s)) || null;
   const { data: productData, error } = useSWR(
     productIdSegment
       ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${productIdSegment}`

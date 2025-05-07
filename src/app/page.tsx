@@ -3,7 +3,7 @@ import CategoryCard from "@/components/CategoryCard";
 import ProductCard from "@/components/ProductCard";
 import StarRating from "@/components/StarRating";
 import { ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import useSWR from "swr";
 // Categories data
 const categories = [
@@ -39,7 +39,9 @@ export default function Home() {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Failed to load</div>;
-
+  if (!data) {
+    notFound();
+  }
   return (
     <div>
       {/* Hero Section */}
