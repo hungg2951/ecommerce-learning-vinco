@@ -14,6 +14,6 @@ declare global {
     onSale?: boolean;
     rating: string;
     reviewCount: number;
-    originalPrice: string;
+    originalPrice: string | null;
   }
 }

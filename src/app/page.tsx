@@ -136,7 +136,7 @@ export default function Home() {
                     reviewCount={product.reviewCount || 0}
                     isNew={product.isNew ?? undefined}
                     onSale={product.onSale ?? undefined}
-                    originalPrice={product.originalPrice ?? undefined}
+                    originalPrice={product.originalPrice ?? null}
                   />
                 ))}
             </div>

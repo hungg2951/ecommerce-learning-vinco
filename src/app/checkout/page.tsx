@@ -5,7 +5,6 @@ import { Check, RefreshCw, ShieldCheck, Truck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Form, Input, Select, Row, Col, Card, Typography } from "antd";
-import Head from "next/head";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
