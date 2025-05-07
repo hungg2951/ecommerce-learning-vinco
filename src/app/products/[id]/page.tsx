@@ -11,7 +11,7 @@ import {
   Truck,
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import useSWR from "swr";
 
@@ -32,10 +32,15 @@ const Product = () => {
     process.env.NEXT_PUBLIC_BASE_URL + "/api/products/" + id,
     fetcher
   );
+
   const { data: products } = useSWR(
     process.env.NEXT_PUBLIC_BASE_URL + "/api/products",
     fetcher
   );
+
+  useEffect(() => {
+    document.title = `${product?.name} - NextShop`;
+  }, [product]);
 
   if (isLoading) return <div>Loading...</div>;
   const thumbnails = [
@@ -87,6 +92,7 @@ const Product = () => {
   const handleActiveTab = (tab: string) => {
     setActiveTab(tab);
   };
+
   return (
     <div>
       <div className="bg-white rounded-lg shadow-sm p-6">

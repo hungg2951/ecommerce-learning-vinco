@@ -3,18 +3,9 @@ import { useCart } from "@/components/context/CartContext";
 import { Button, Radio } from "antd";
 import { Check, RefreshCw, ShieldCheck, Truck } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import {
-  Form,
-  Input,
-  Select,
-  Checkbox,
-  Row,
-  Col,
-  Card,
-  Typography,
-  Divider,
-} from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Select, Row, Col, Card, Typography } from "antd";
+import Head from "next/head";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -42,12 +33,17 @@ const shippingOptions = [
 
 const Checkout = () => {
   const [checkoutStep, setCheckoutStep] = useState(1);
-  const [selected, setSelected] = useState("express");
+  const [selected, setSelected] = useState("standard");
   const [priceShip, setPriceShip] = useState(0);
 
   const router = useRouter();
 
   const { cartItems, getTotalPrice } = useCart();
+
+  useEffect(() => {
+    document.title = "Checkout - NextShop";
+  }, []);
+
   return (
     <div className="container mx-auto px-4">
       <div className="mb-8">
@@ -281,7 +277,11 @@ const Checkout = () => {
                         <Text type="secondary">{option.description}</Text>
                         <br />
                         <Text style={{ fontWeight: "bold" }}>
-                          {option.price === 0 ? "Free" : <span>${option.price}</span> }
+                          {option.price === 0 ? (
+                            "Free"
+                          ) : (
+                            <span>${option.price}</span>
+                          )}
                         </Text>
                       </div>
                     </Card>
@@ -350,11 +350,13 @@ const Checkout = () => {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Shipping</span>
-                <span>{priceShip === 0 ? "Free" : <span>${priceShip}</span> }</span>
+                <span>
+                  {priceShip === 0 ? "Free" : <span>${priceShip}</span>}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Tax</span>
-                <span>${getTotalPrice().toFixed(2)}</span>
+                <span>$0</span>
               </div>
             </div>
 

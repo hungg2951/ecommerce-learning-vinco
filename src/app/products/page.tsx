@@ -1,12 +1,11 @@
-import React from 'react'
-
+"use client";
+import React, { useEffect } from "react";
 
 const Products = () => {
-    return (
-        <div>
-            
-        </div>
-    )
-}
+  useEffect(() => {
+    document.title = "Products - MyStore";
+  }, []);
+  return <div></div>;
+};
 
-export default Products
+export default Products;
