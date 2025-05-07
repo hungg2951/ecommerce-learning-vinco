@@ -26,6 +26,7 @@ const Header = () => {
     if (searchQuery.trim()) {
       router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       closeMobileMenu();
+      setSearchQuery("")
     }
   };
   return (

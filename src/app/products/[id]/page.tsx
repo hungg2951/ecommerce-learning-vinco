@@ -10,7 +10,7 @@ import {
   ShoppingCart,
   Truck,
 } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import useSWR from "swr";
@@ -20,9 +20,13 @@ const Product = () => {
 
   const { id } = useParams();
 
+  const router = useRouter();
+
   const [activeColor, setActiveColor] = useState("blue");
   const [isFavorited, setIsFavorited] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [activeTab, setActiveTab] = useState("description");
+
   const { addToCart } = useCart();
   const { data: product, isLoading } = useSWR(
     process.env.NEXT_PUBLIC_BASE_URL + "/api/products/" + id,
@@ -51,7 +55,7 @@ const Product = () => {
     setIsFavorited(!isFavorited);
   };
 
-  const addToCartHandler = () => {
+  const addToCartHandler = (option: string) => {
     const payload = {
       id: product.id,
       name: product.name,
@@ -67,6 +71,7 @@ const Product = () => {
       timer: 1000,
     });
     setQuantity(1);
+    if (option === "buy") router.push("/checkout");
   };
 
   const inscreaseHandler = () => {
@@ -77,6 +82,10 @@ const Product = () => {
     if (quantity > 1) {
       setQuantity((prev) => prev - 1);
     }
+  };
+
+  const handleActiveTab = (tab: string) => {
+    setActiveTab(tab);
   };
   return (
     <div>
@@ -131,41 +140,41 @@ const Product = () => {
                 <button
                   className={`w-8 h-8 rounded-full bg-black ${
                     activeColor === "black"
-                      ? "border-2 border-blue-600"
-                      : "border-2 border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      ? "border-3 border-blue-600"
+                      : "border-3 border-gray-300"
+                  } focus:outline-none focus:ring-3 focus:ring-blue-500 cursor-pointer`}
                   onClick={() => setActiveColor("black")}
                 ></button>
                 <button
                   className={`w-8 h-8 rounded-full bg-white ${
                     activeColor === "white"
-                      ? "border-2 border-blue-600"
-                      : "border-2 border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      ? "border-3 border-blue-600"
+                      : "border-3 border-gray-300"
+                  } focus:outline-none focus:ring-3 focus:ring-blue-500 cursor-pointer`}
                   onClick={() => setActiveColor("white")}
                 ></button>
                 <button
                   className={`w-8 h-8 rounded-full bg-gray-500 ${
                     activeColor === "gray"
-                      ? "border-2 border-blue-600"
-                      : "border-2 border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      ? "border-3 border-blue-600"
+                      : "border-3 border-gray-300"
+                  } focus:outline-none focus:ring-3 focus:ring-blue-500 cursor-pointer`}
                   onClick={() => setActiveColor("gray")}
                 ></button>
                 <button
                   className={`w-8 h-8 rounded-full bg-red-500 ${
                     activeColor === "red"
-                      ? "border-2 border-blue-600"
-                      : "border-2 border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      ? "border-3 border-blue-600"
+                      : "border-3 border-gray-300"
+                  } focus:outline-none focus:ring-3 focus:ring-blue-500 cursor-pointer`}
                   onClick={() => setActiveColor("red")}
                 ></button>
                 <button
                   className={`w-8 h-8 rounded-full bg-blue-500 ${
                     activeColor === "blue"
-                      ? "border-2 border-blue-600"
-                      : "border-2 border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      ? "border-3 border-blue-600"
+                      : "border-3 border-gray-300"
+                  } focus:outline-none focus:ring-3 focus:ring-blue-500 cursor-pointer`}
                   onClick={() => setActiveColor("blue")}
                 ></button>
               </div>
@@ -197,11 +206,14 @@ const Product = () => {
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mb-6">
               <button
                 className="cursor-pointer flex-1 bg-blue-600 text-white py-2 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center"
-                onClick={addToCartHandler}
+                onClick={() => addToCartHandler("")}
               >
                 <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
               </button>
-              <button className="cursor-pointer flex-1 bg-emerald-600 text-white py-2 px-6 rounded-lg font-medium hover:bg-emerald-700 transition-colors">
+              <button
+                className="cursor-pointer flex-1 bg-emerald-600 text-white py-2 px-6 rounded-lg font-medium hover:bg-emerald-700 transition-colors"
+                onClick={() => addToCartHandler("buy")}
+              >
                 Buy Now
               </button>
               <button
@@ -248,6 +260,183 @@ const Product = () => {
         </div>
 
         {/* Product Tabs */}
+        <div className="container mx-auto my-10">
+          <div className="flex space-x-6 border-b border-gray-200">
+            <button
+              onClick={() => handleActiveTab("description")}
+              className={`cursor-pointer pb-2 ${
+                activeTab === "description"
+                  ? "border-b-2 border-black font-medium text-black"
+                  : "text-gray-500"
+              } `}
+            >
+              Description
+            </button>
+            <button
+              onClick={() => handleActiveTab("specifications")}
+              className={`cursor-pointer pb-2 ${
+                activeTab === "specifications"
+                  ? "border-b-2 border-black font-medium text-black"
+                  : "text-gray-500"
+              } `}
+            >
+              Specifications
+            </button>
+            <button
+              onClick={() => handleActiveTab("reviews")}
+              className={`cursor-pointer pb-2 ${
+                activeTab === "reviews"
+                  ? "border-b-2 border-black font-medium text-black"
+                  : "text-gray-500"
+              } `}
+            >
+              Reviews (42)
+            </button>
+            <button
+              onClick={() => handleActiveTab("faqs")}
+              className={`cursor-pointer pb-2 ${
+                activeTab === "faqs"
+                  ? "border-b-2 border-black font-medium text-black"
+                  : "text-gray-500"
+              } `}
+            >
+              FAQs
+            </button>
+          </div>
+
+          {activeTab === "description" && (
+            <div className="mt-6 space-y-4 text-gray-700 text-base py-2">
+              <p>
+                Experience premium quality with our Wireless Headphones.
+                Designed for comfort and durability, this product delivers
+                exceptional performance for all your needs.
+              </p>
+              <p>
+                Premium wireless headphones with high-quality sound, noise
+                cancellation, and long battery life. Perfect for music lovers
+                and professionals who need clear audio for calls and meetings.
+              </p>
+              <p>
+                The ergonomic design provides comfort for extended use, while
+                the premium materials ensure durability and style. Connect
+                easily to your devices for a stable, high-quality experience.
+              </p>
+            </div>
+          )}
+
+          {activeTab === "specifications" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-5">
+              <div className="border-b border-gray-200 py-3">
+                <span className="font-medium">Material:</span> Premium quality
+              </div>
+              <div className="border-b border-gray-200 py-3">
+                <span className="font-medium">Dimensions:</span> 12 x 8 x 2
+                inches
+              </div>
+              <div className="border-b border-gray-200 py-3">
+                <span className="font-medium">Weight:</span> 1.2 lbs
+              </div>
+              <div className="border-b border-gray-200 py-3">
+                <span className="font-medium">Warranty:</span> 1 year
+              </div>
+              <div className="border-b border-gray-200 py-3">
+                <span className="font-medium">Country of Origin:</span> USA
+              </div>
+              <div className="border-b border-gray-200 py-3">
+                <span className="font-medium">Model Number:</span> {product.id}
+                XYZ
+              </div>
+            </div>
+          )}
+
+          {activeTab === "reviews" && (
+            <div className="space-y-6 py-5">
+              <div className="flex items-start">
+                <div className="mr-4">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                    <img
+                      src="https://randomuser.me/api/portraits/men/32.jpg"
+                      alt="User"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center mb-1">
+                    <span className="font-medium mr-2">John D.</span>
+                    <StarRating rating={5} />
+                  </div>
+                  <p className="text-gray-500 text-sm mb-2">
+                    Verified Purchase • 2 weeks ago
+                  </p>
+                  <p className="text-gray-700">
+                    This product exceeded my expectations! Great quality and
+                    fast shipping. I would definitely recommend it to anyone
+                    looking for a reliable product.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start">
+                <div className="mr-4">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                    <img
+                      src="https://randomuser.me/api/portraits/women/44.jpg"
+                      alt="User"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center mb-1">
+                    <span className="font-medium mr-2">Sarah M.</span>
+                    <StarRating rating={4} />
+                  </div>
+                  <p className="text-gray-500 text-sm mb-2">
+                    Verified Purchase • 1 month ago
+                  </p>
+                  <p className="text-gray-700">
+                    Very good product for the price. It's comfortable and
+                    durable. The only reason I'm not giving 5 stars is because
+                    the color was slightly different than what was shown in the
+                    pictures.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "faqs" && (
+            <div className="space-y-6 py-5">
+              <div>
+                <h4 className="font-medium text-lg mb-2">
+                  Is this product covered by warranty?
+                </h4>
+                <p className="text-gray-600">
+                  Yes, all our products come with a standard 1-year manufacturer
+                  warranty against defects.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-medium text-lg mb-2">
+                  How do I care for this product?
+                </h4>
+                <p className="text-gray-600">
+                  For best results, follow the care instructions included with
+                  the product. Generally, we recommend gentle cleaning with
+                  appropriate materials for the specific product type.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-medium text-lg mb-2">
+                  Can I return this if I'm not satisfied?
+                </h4>
+                <p className="text-gray-600">
+                  Absolutely! We offer a 30-day return policy on all our
+                  products. If you're not completely satisfied, you can return
+                  it for a full refund or exchange.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Related Products */}
         <div className="mt-12">
