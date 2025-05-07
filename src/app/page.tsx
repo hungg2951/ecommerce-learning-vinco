@@ -33,7 +33,7 @@ export default function Home() {
   const router = useRouter();
 
   const { data, error, isLoading } = useSWR(
-    process.env.NEXT_PUBLIC_BASE_URL + "/api/products",
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products`,
     fetcher
   );
 
