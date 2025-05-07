@@ -4,8 +4,11 @@ import { X, ShoppingCart as CartIcon } from "lucide-react";
 import { Button } from "antd";
 import Link from "next/link";
 import { useCart } from "./context/CartContext";
+import { useRouter } from "next/navigation";
 
 const ShoppingCart = () => {
+  const router = useRouter();
+
   const {
     toggleCart,
     isCartOpen,
@@ -137,14 +140,17 @@ const ShoppingCart = () => {
               <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                 <div className="flex justify-between text-base font-medium text-gray-900">
                   <p>Subtotal</p>
-                  <p>${getTotalPrice()}</p>
+                  <p>${getTotalPrice().toFixed(2)}</p>
                 </div>
                 <p className="mt-0.5 text-sm text-gray-500">
                   Shipping and taxes calculated at checkout.
                 </p>
                 <div className="mt-6">
                   <Button
-                    onClick={toggleCart}
+                    onClick={() => {
+                      toggleCart();
+                      router.push("/checkout");
+                    }}
                     type="primary"
                     disabled={cartItems.length === 0 ? true : false}
                     className="w-full justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700"
