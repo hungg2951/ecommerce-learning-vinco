@@ -37,11 +37,18 @@ const Checkout = () => {
 
   const router = useRouter();
 
-  const { cartItems, getTotalPrice } = useCart();
+  const { cartItems, getTotalPrice,toggleCart } = useCart();
 
   useEffect(() => {
     document.title = "Checkout - NextShop";
   }, []);
+
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      router.push("/products");
+      toggleCart()
+    }
+  }, [cartItems]);
 
   const onSubmit = () => {
     if (checkoutStep === 1) {
