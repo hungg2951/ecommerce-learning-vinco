@@ -37,7 +37,7 @@ const Checkout = () => {
 
   const router = useRouter();
 
-  const { cartItems, getTotalPrice,toggleCart } = useCart();
+  const { cartItems, getTotalPrice, toggleCart } = useCart();
 
   useEffect(() => {
     document.title = "Checkout - NextShop";
@@ -46,7 +46,9 @@ const Checkout = () => {
   useEffect(() => {
     if (cartItems.length === 0) {
       router.push("/products");
-      toggleCart()
+      setTimeout(() => {
+        toggleCart();
+      }, 0);
     }
   }, [cartItems]);
 

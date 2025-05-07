@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import useSWR from "swr";
 
 const Product = () => {
@@ -71,12 +70,6 @@ const Product = () => {
       quantity: quantity,
     };
     addToCart(payload);
-    Swal.fire({
-      icon: "success",
-      title: "Add to cart successfully",
-      showConfirmButton: false,
-      timer: 1000,
-    });
     setQuantity(1);
     if (option === "buy") router.push("/checkout");
   };

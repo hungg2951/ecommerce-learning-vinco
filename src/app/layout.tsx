@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { CartProvider } from "@/components/context/CartContext";
 import ShoppingCart from "@/components/ShoppingCart";
 import Breadcrumb from "@/components/Breadcrumb";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,11 +35,12 @@ export default function RootLayout({
       >
         <CartProvider>
           <Header />
-          <Breadcrumb/>
+          <Breadcrumb />
           {children}
           <Footer />
-          <ShoppingCart/>
+          <ShoppingCart />
         </CartProvider>
+        <ToastContainer />
       </body>
     </html>
   );

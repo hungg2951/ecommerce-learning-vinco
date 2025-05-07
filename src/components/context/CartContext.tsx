@@ -6,6 +6,7 @@ import {
   ReactNode,
   useEffect,
 } from "react";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 interface CartContextType {
@@ -61,6 +62,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
       return [...prev, payload];
     });
+    toast.success("Add to cart successfully")
   };
 
   const decrease = (id: number) => {
