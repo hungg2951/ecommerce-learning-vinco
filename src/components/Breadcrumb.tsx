@@ -13,7 +13,7 @@ interface BreadcrumbItem {
 
 interface ProductData {
   name: string;
-  [key: string]: any;
+  [key: string]: string;
 }
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());

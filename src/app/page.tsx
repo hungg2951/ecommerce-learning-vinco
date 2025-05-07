@@ -53,7 +53,7 @@ export default function Home() {
                 Discover Modern Essentials for Your Lifestyle
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Shop the latest trends with NextShop's curated collection of
+                Shop the latest trends with NextShop is curated collection of
                 premium products.
               </p>
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
@@ -176,8 +176,8 @@ export default function Home() {
                 <StarRating rating={5} size="lg" />
               </div>
               <p className="text-gray-600 mb-4">
-                "The quality of the products exceeds my expectations. Fast
-                shipping and excellent customer service!"
+                The quality of the products exceeds my expectations. Fast
+                shipping and excellent customer service!
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-gray-300 mr-3 overflow-hidden">
@@ -198,8 +198,8 @@ export default function Home() {
                 <StarRating rating={5} size="lg" />
               </div>
               <p className="text-gray-600 mb-4">
-                "I love how easy it is to navigate the website and find exactly
-                what I'm looking for. Great selection of products!"
+                I love how easy it is to navigate the website and find exactly
+                what Im looking for. Great selection of products!
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-gray-300 mr-3 overflow-hidden">
@@ -220,8 +220,9 @@ export default function Home() {
                 <StarRating rating={4.5} size="lg" />
               </div>
               <p className="text-gray-600 mb-4">
-                "The checkout process was smooth and hassle-free. My items
-                arrived earlier than expected and in perfect condition."
+                {
+                  "The checkout process was smooth and hassle-free. My items arrived earlier than expected and in perfect condition."
+                }
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-gray-300 mr-3 overflow-hidden">

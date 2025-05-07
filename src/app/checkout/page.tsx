@@ -43,6 +43,20 @@ const Checkout = () => {
     document.title = "Checkout - NextShop";
   }, []);
 
+  const onSubmit = () => {
+    if (checkoutStep === 1) {
+      setCheckoutStep(2);
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // If on payment step, go to review step
+    if (checkoutStep === 2) {
+      setCheckoutStep(3);
+      window.scrollTo(0, 0);
+      return;
+    }
+  };
   return (
     <div className="container mx-auto px-4">
       <div className="mb-8">
@@ -291,7 +305,9 @@ const Checkout = () => {
 
             <Row justify="space-between" style={{ marginTop: 24 }}>
               <Button type="default">← Continue Shopping</Button>
-              <Button type="primary">Continue to Payment</Button>
+              <Button type="primary" onClick={onSubmit}>
+                Continue to Payment
+              </Button>
             </Row>
           </Card>
         </div>

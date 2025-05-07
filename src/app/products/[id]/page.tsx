@@ -401,8 +401,8 @@ const Product = () => {
                     Verified Purchase • 1 month ago
                   </p>
                   <p className="text-gray-700">
-                    Very good product for the price. It's comfortable and
-                    durable. The only reason I'm not giving 5 stars is because
+                    Very good product for the price. It is comfortable and
+                    durable. The only reason I am not giving 5 stars is because
                     the color was slightly different than what was shown in the
                     pictures.
                   </p>
@@ -434,11 +434,11 @@ const Product = () => {
               </div>
               <div>
                 <h4 className="font-medium text-lg mb-2">
-                  Can I return this if I'm not satisfied?
+                  Can I return this if I am not satisfied?
                 </h4>
                 <p className="text-gray-600">
                   Absolutely! We offer a 30-day return policy on all our
-                  products. If you're not completely satisfied, you can return
+                  products. If you are not completely satisfied, you can return
                   it for a full refund or exchange.
                 </p>
               </div>
