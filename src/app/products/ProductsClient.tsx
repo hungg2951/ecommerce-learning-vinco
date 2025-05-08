@@ -2,7 +2,7 @@
 import ProductCard from "@/components/ProductCard";
 import StarRating from "@/components/StarRating";
 import { Button, Radio } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const rangePrice = [
   {
@@ -24,7 +24,6 @@ const rangePrice = [
 ];
 
 const ProductsClient = ({ products }: { products: TProduct[] }) => {
-  console.log("🚀 ~ ProductsClient ~ products:", products);
   const [selectedRatings, setSelectedRatings] = useState<number>();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<string | null>(null);
@@ -35,7 +34,21 @@ const ProductsClient = ({ products }: { products: TProduct[] }) => {
     setSelectedRatings(0);
   };
 
-  const productsFilter = products;
+  const productsFilter = products.filter((product: TProduct) => {
+    const price = parseFloat(product.price);
+    const matchesCategory =
+      !selectedCategory || product.category === selectedCategory;
+    const matchesPriceRange =
+      !priceRange ||
+      (priceRange === "under50" && price < 50) ||
+      (priceRange === "50to100" && price >= 50 && price <= 100) ||
+      (priceRange === "100to200" && price > 100 && price <= 200) ||
+      (priceRange === "over200" && price > 200);
+    const matchesRating =
+      !selectedRatings || parseFloat(product.rating) >= selectedRatings;
+
+    return matchesCategory && matchesPriceRange && matchesRating;
+  });
   return (
     <div className="mx-auto container px-4">
       <h1 className="text-3xl font-bold mb-6">
