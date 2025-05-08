@@ -46,11 +46,9 @@ const Checkout = () => {
   useEffect(() => {
     if (cartItems.length === 0) {
       router.push("/products");
-      setTimeout(() => {
-        toggleCart();
-      }, 0);
+      toggleCart();
     }
-  }, [cartItems]);
+  }, [cartItems, router, toggleCart]); 
 
   const onSubmit = () => {
     if (checkoutStep === 1) {
