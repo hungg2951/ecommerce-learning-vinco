@@ -313,7 +313,7 @@ const Checkout = () => {
             </Radio.Group>
 
             <Row justify="space-between" style={{ marginTop: 24 }}>
-              <Button type="default">← Continue Shopping</Button>
+              <Button type="default" onClick={()=>router.push('/products')}>← Continue Shopping</Button>
               <Button type="primary" onClick={onSubmit}>
                 Continue to Payment
               </Button>
