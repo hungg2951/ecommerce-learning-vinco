@@ -2,7 +2,8 @@
 import ProductCard from "@/components/ProductCard";
 import StarRating from "@/components/StarRating";
 import { Button, Radio } from "antd";
-import React, { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 
 const rangePrice = [
@@ -29,12 +30,23 @@ const ProductsClient = ({ products }: { products: TProduct[] }) => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<string | null>(null);
   const [sortPrice, setSortPrice] = useState("");
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const queryValue = searchParams.get("category");
+
   const clearFilterData = () => {
     setPriceRange(null);
     setSelectedCategory(null);
     setSelectedRatings(0);
+    router.push("/products");
   };
 
+  useEffect(() => {
+    if (queryValue) {
+      setSelectedCategory(queryValue);
+    }
+  }, [queryValue]);
   const productsFilter = products
     .filter((product: TProduct) => {
       const price = parseFloat(product.price);
