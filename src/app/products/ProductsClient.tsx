@@ -40,6 +40,7 @@ const ProductsClient = ({ products }: { products: TProduct[] }) => {
     setPriceRange(null);
     setSelectedCategory(null);
     setSelectedRatings(0);
+    setSortPrice("")
     router.push("/products");
   };
 
