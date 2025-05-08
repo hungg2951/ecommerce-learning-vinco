@@ -1,27 +1,53 @@
 import React from "react";
 import ProductDetailClient from "./ProductDetailClient";
-import axios from "axios";
+import { Metadata } from "next";
+
+interface PageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
-const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
 
-  const { id } = await params;
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
 
-  const product = await axios.get(`${baseURL}/api/products/${id}`);
-  const products = await axios.get(`${baseURL}/api/products`);
+  if (!baseURL) return { title: "Product Not Found" };
 
-  return (
-    <ProductDetailClient product={product.data} products={products.data} />
-  );
+  try {
+    const data: TProduct = await fetch(
+      `${baseURL}/api/products/${resolvedParams.id}`
+    ).then((res) => res.json());
+
+    return {
+      title: data.name,
+      description: data.description || `Details about ${data.name}`,
+    };
+  } catch {
+    return { title: "Product Not Found" };
+  }
+}
+
+const ProductDetailPage = async ({ params }: PageProps) => {
+  const resolvedParams = await params;
+
+  if (!baseURL) return <div>Configuration error</div>;
+
+  try {
+    const [product, products]: [TProduct, TProduct[]] = await Promise.all([
+      fetch(`${baseURL}/api/products/${resolvedParams.id}`).then((res) =>
+        res.json()
+      ),
+      fetch(`${baseURL}/api/products`).then((res) => res.json()),
+    ]);
+
+    return <ProductDetailClient product={product} products={products} />;
+  } catch {
+    return <div>Failed to load product data</div>;
+  }
 };
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-
-  const { id } = await params;
-  const {data} = await axios.get(`${baseURL}/api/products/${id}`);
-
-  return {
-    title: `${data.name}`
-  };
-}
 export default ProductDetailPage;
