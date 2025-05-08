@@ -3,6 +3,7 @@ import ProductCard from "@/components/ProductCard";
 import StarRating from "@/components/StarRating";
 import { Button, Radio } from "antd";
 import React, { useState } from "react";
+import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 
 const rangePrice = [
   {
@@ -27,28 +28,34 @@ const ProductsClient = ({ products }: { products: TProduct[] }) => {
   const [selectedRatings, setSelectedRatings] = useState<number>();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<string | null>(null);
-
+  const [sortPrice, setSortPrice] = useState("");
   const clearFilterData = () => {
     setPriceRange(null);
     setSelectedCategory(null);
     setSelectedRatings(0);
   };
 
-  const productsFilter = products.filter((product: TProduct) => {
-    const price = parseFloat(product.price);
-    const matchesCategory =
-      !selectedCategory || product.category === selectedCategory;
-    const matchesPriceRange =
-      !priceRange ||
-      (priceRange === "under50" && price < 50) ||
-      (priceRange === "50to100" && price >= 50 && price <= 100) ||
-      (priceRange === "100to200" && price > 100 && price <= 200) ||
-      (priceRange === "over200" && price > 200);
-    const matchesRating =
-      !selectedRatings || parseFloat(product.rating) >= selectedRatings;
-
-    return matchesCategory && matchesPriceRange && matchesRating;
-  });
+  const productsFilter = products
+    .filter((product: TProduct) => {
+      const price = parseFloat(product.price);
+      const matchesCategory =
+        !selectedCategory || product.category === selectedCategory;
+      const matchesPriceRange =
+        !priceRange ||
+        (priceRange === "under50" && price < 50) ||
+        (priceRange === "50to100" && price >= 50 && price <= 100) ||
+        (priceRange === "100to200" && price > 100 && price <= 200) ||
+        (priceRange === "over200" && price > 200);
+      const matchesRating =
+        !selectedRatings || parseFloat(product.rating) >= selectedRatings;
+      return matchesCategory && matchesPriceRange && matchesRating;
+    })
+    .sort((a, b) => {
+      if (sortPrice === "asc") return parseFloat(a.price) - parseFloat(b.price);
+      if (sortPrice === "desc")
+        return parseFloat(b.price) - parseFloat(a.price);
+      return 0;
+    });
   return (
     <div className="mx-auto container px-4">
       <h1 className="text-3xl font-bold mb-6">
@@ -142,24 +149,48 @@ const ProductsClient = ({ products }: { products: TProduct[] }) => {
               </Button>
             </div>
           ) : (
-            <div
-              className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`}
-            >
-              {productsFilter?.map((product: TProduct) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                  imageUrl={product.imageUrl}
-                  rating={product.rating || "0"}
-                  reviewCount={product.reviewCount || 0}
-                  isNew={product.isNew ?? undefined}
-                  onSale={product.onSale ?? undefined}
-                  originalPrice={product.originalPrice ?? null}
-                />
-              ))}
+            <div>
+              <div className="my-10 flex gap-3">
+                <h3 className="font-bold">Sắp xếp giá: </h3>
+                <button
+                  onClick={() => setSortPrice("asc")}
+                  className={`flex items-center gap-2 cursor-pointer ${
+                    sortPrice === "asc" ? "text-blue-600" : ""
+                  }`}
+                >
+                  Low to Hight{" "}
+                  <span>
+                    <FaArrowUpLong />
+                  </span>
+                </button>
+                <button
+                  onClick={() => setSortPrice("desc")}
+                  className={`flex items-center gap-2 cursor-pointer ${
+                    sortPrice === "desc" ? "text-blue-600" : ""
+                  }`}
+                >
+                  Hight to Low <FaArrowDownLong />
+                </button>
+              </div>
+              <div
+                className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`}
+              >
+                {productsFilter?.map((product: TProduct) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    description={product.description}
+                    price={product.price}
+                    imageUrl={product.imageUrl}
+                    rating={product.rating || "0"}
+                    reviewCount={product.reviewCount || 0}
+                    isNew={product.isNew ?? undefined}
+                    onSale={product.onSale ?? undefined}
+                    originalPrice={product.originalPrice ?? null}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </div>
