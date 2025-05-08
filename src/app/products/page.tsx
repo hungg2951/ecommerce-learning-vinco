@@ -1,6 +1,6 @@
 import React from "react";
 import ProductsClient from "./ProductsClient";
-
+export const dynamic = "force-dynamic"
 export const metadata = {
   title: 'Products - NextShop',
   description: 'Tất cả sản phẩm',
