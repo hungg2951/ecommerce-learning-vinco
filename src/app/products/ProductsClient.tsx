@@ -34,6 +34,7 @@ const ProductsClient = ({ products }: { products: TProduct[] }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const queryValue = searchParams.get("category");
+  console.log("🚀 ~ ProductsClient ~ queryValue:", queryValue)
 
   const clearFilterData = () => {
     setPriceRange(null);
