@@ -1,0 +1,158 @@
+"use client";
+import ProductCard from "@/components/ProductCard";
+import StarRating from "@/components/StarRating";
+import { Button, Radio } from "antd";
+import React, { useEffect, useState } from "react";
+
+const rangePrice = [
+  {
+    value: "under50",
+    label: "Under $50",
+  },
+  {
+    value: "50to100",
+    label: "$50 - $100",
+  },
+  {
+    value: "100to200",
+    label: "$100 - $200",
+  },
+  {
+    value: "over200",
+    label: "Over $200",
+  },
+];
+
+const ProductsClient = ({ products }: { products: TProduct[] }) => {
+  console.log("🚀 ~ ProductsClient ~ products:", products);
+  const [selectedRatings, setSelectedRatings] = useState<number>();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [priceRange, setPriceRange] = useState<string | null>(null);
+
+  const clearFilterData = () => {
+    setPriceRange(null);
+    setSelectedCategory(null);
+    setSelectedRatings(0);
+  };
+
+  const productsFilter = products;
+  return (
+    <div className="mx-auto container px-4">
+      <h1 className="text-3xl font-bold mb-6">
+        {selectedCategory && selectedCategory !== ""
+          ? selectedCategory
+          : "All Products"}
+      </h1>
+      <div className="flex flex-col lg:flex-row">
+        {/* Filters Sidebar */}
+        <div className="lg:w-1/4 pr-0 lg:pr-8 mb-6 lg:mb-0">
+          <div className="p-4 bg-white">
+            <h3 className="text-lg font-semibold mb-4">Filters</h3>
+
+            {/* Categories Filter */}
+            <div className="mb-4">
+              <h4 className="font-medium">Categories</h4>
+              <Radio.Group
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                value={selectedCategory}
+              >
+                {["Electronics", "Fashion", "Home & Decor", "Accessories"].map(
+                  (category) => (
+                    <p key={category}>
+                      <Radio value={category}>{category}</Radio>
+                    </p>
+                  )
+                )}
+              </Radio.Group>
+            </div>
+
+            {/* Price Range Filter */}
+            <div className="mb-4">
+              <h4 className="font-medium">Price Range</h4>
+              <Radio.Group
+                onChange={(e) => setPriceRange(e.target.value)}
+                value={priceRange}
+              >
+                {rangePrice.map((range) => (
+                  <p key={range.value}>
+                    <Radio value={range.value}>{range.label}</Radio>
+                  </p>
+                ))}
+              </Radio.Group>
+            </div>
+
+            {/* Rating Filter */}
+            <div className="mb-6">
+              <h3 className="font-medium mb-2">Rating</h3>
+              <div className="space-y-2">
+                <Radio.Group
+                  onChange={(e) => setSelectedRatings(e.target.value)}
+                  value={selectedRatings}
+                >
+                  {[5, 4, 3].map((rating) => (
+                    <div key={rating} className="flex items-center">
+                      <Radio value={rating}>
+                        <div className="flex items-center">
+                          <span>{rating}</span>
+                          <StarRating rating={rating} />
+                          <span className="ml-1">& up</span>
+                        </div>
+                      </Radio>
+                    </div>
+                  ))}
+                </Radio.Group>
+              </div>
+            </div>
+
+            <button
+              onClick={clearFilterData}
+              className="text-blue-600 hover:text-blue-800 cursor-pointer"
+            >
+              Clear All Filters
+            </button>
+          </div>
+        </div>
+
+        {/* Products Grid */}
+        <div className="lg:w-3/4">
+          {productsFilter?.length === 0 ? (
+            <div className="text-center py-12 bg-white rounded-lg shadow-sm">
+              <p className="text-gray-500">
+                No products found matching your criteria.
+              </p>
+              <Button
+                variant="link"
+                onClick={clearFilterData}
+                className="text-blue-600 hover:text-blue-800 mt-4"
+              >
+                Clear filters and try again
+              </Button>
+            </div>
+          ) : (
+            <div
+              className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`}
+            >
+              {productsFilter?.map((product: TProduct) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                  imageUrl={product.imageUrl}
+                  rating={product.rating || "0"}
+                  reviewCount={product.reviewCount || 0}
+                  isNew={product.isNew ?? undefined}
+                  onSale={product.onSale ?? undefined}
+                  originalPrice={product.originalPrice ?? null}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductsClient;

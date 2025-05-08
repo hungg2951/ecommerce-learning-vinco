@@ -2,8 +2,8 @@ import React from "react";
 import ProductDetailClient from "./ProductDetailClient";
 import axios from "axios";
 
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
-  const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
   const { id } = await params;
 
@@ -15,4 +15,13 @@ const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
   );
 };
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+
+  const { id } = await params;
+  const {data} = await axios.get(`${baseURL}/api/products/${id}`);
+
+  return {
+    title: `${data.name}`
+  };
+}
 export default ProductDetailPage;

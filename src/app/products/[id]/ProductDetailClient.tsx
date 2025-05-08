@@ -29,12 +29,6 @@ const ProductDetailClient = ({
 
   const { addToCart } = useCart();
 
-  useEffect(() => {
-    if (product) {
-      document.title = `${product?.name} - NextShop`;
-    }
-  }, [product]);
-
   const thumbnails = [
     product.imageUrl,
     "https://images.unsplash.com/photo-1599669454699-e2ed799f9c95?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
