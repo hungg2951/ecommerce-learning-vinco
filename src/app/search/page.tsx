@@ -24,7 +24,7 @@ const SearchPage = async ({
   if (!results) {
     throw new Error("No results found");
   }
-  return <ProductsClient products={results} title={`Sản phẩm tìm kiếm với từ khóa: "${query}"`} />;
+  return <ProductsClient products={results} title={`Search products with keywords: "${query}"`} />;
 };
 
 export default SearchPage;
