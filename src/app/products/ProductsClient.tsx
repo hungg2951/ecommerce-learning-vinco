@@ -171,7 +171,7 @@ const ProductsClient = ({
           ) : (
             <div>
               <div className="my-10 flex gap-3">
-                <h3 className="font-bold">Sắp xếp giá: </h3>
+                <h3 className="font-bold">Sort by price: </h3>
                 <button
                   onClick={() => setSortPrice("asc")}
                   className={`flex items-center gap-2 cursor-pointer ${
