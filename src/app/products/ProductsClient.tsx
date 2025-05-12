@@ -25,21 +25,26 @@ const rangePrice = [
   },
 ];
 
-const ProductsClient = ({ products }: { products: TProduct[] }) => {
+const ProductsClient = ({
+  products,
+  title,
+}: {
+  products: TProduct[];
+  title?: string;
+}) => {
   const [selectedRatings, setSelectedRatings] = useState<number>();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<string | null>(null);
   const [sortPrice, setSortPrice] = useState("");
 
   const searchParams = useSearchParams();
-  const router = useRouter();
   const queryValue = searchParams.get("category");
 
   const clearFilterData = () => {
     setPriceRange(null);
     setSelectedCategory(null);
     setSelectedRatings(0);
-    setSortPrice("")
+    setSortPrice("");
     // router.push("/products");
   };
 
@@ -72,7 +77,9 @@ const ProductsClient = ({ products }: { products: TProduct[] }) => {
   return (
     <div className="mx-auto container px-4">
       <h1 className="text-3xl font-bold mb-6">
-        {selectedCategory && selectedCategory !== ""
+        {title && title !== ""
+          ? title
+          : selectedCategory && selectedCategory !== ""
           ? selectedCategory
           : "All Products"}
       </h1>
