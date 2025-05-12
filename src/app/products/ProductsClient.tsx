@@ -40,7 +40,7 @@ const ProductsClient = ({ products }: { products: TProduct[] }) => {
     setSelectedCategory(null);
     setSelectedRatings(0);
     setSortPrice("")
-    router.push("/products");
+    // router.push("/products");
   };
 
   useEffect(() => {
