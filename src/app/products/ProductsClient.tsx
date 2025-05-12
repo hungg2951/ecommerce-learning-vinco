@@ -2,7 +2,7 @@
 import ProductCard from "@/components/ProductCard";
 import StarRating from "@/components/StarRating";
 import { Button, Radio } from "antd";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 
